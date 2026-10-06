@@ -7,6 +7,8 @@ const commandQueueRoutes = require("./routes/commandQueue.routes");
 const securityGatewayRoutes = require("./routes/securityGateway.routes");
 const securityDecisionRoutes = require("./routes/securityDecision.routes");
 const scenarioRoutes = require("./routes/scenario.routes");
+const groundStationRoutes = require("./routes/groundStation.routes");
+const attackLabRoutes = require("./routes/attackLab.routes");
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(commandQueueRoutes);
 app.use(securityGatewayRoutes);
 app.use(securityDecisionRoutes);
 app.use(scenarioRoutes);
+app.use(groundStationRoutes);
+app.use(attackLabRoutes);
 
 app.use((error, request, response, next) => {
 	if (response.headersSent) {

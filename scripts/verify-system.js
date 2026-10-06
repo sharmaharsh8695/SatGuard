@@ -243,12 +243,12 @@ function sameJson(first, second) {
 }
 
 async function verifyHealthAndBasicApi() {
-  await verify("HEALTH-001", "health", "Health returns the OrbitGuard service identity", "HTTP 200 JSON; status ok; service OrbitGuard", async () => {
+  await verify("HEALTH-001", "health", "Health returns the SAT Guard service identity", "HTTP 200 JSON; status ok; service SAT Guard", async () => {
     const response = await request("GET", "/health");
     const data = assertStatus(response, [200]);
     assertJson(response);
     assert.equal(data.status, "ok");
-    assert.equal(data.service, "OrbitGuard");
+    assert.equal(data.service, "SAT Guard");
     return { pass: true, actual: `HTTP ${response.status}; status=${data.status}; service=${data.service}` };
   });
 
@@ -1027,7 +1027,7 @@ function summary() {
 
 function printReport(report) {
   console.log("==================================================");
-  console.log("OrbitGuard Full-System Verification");
+  console.log("SAT Guard Full-System Verification");
   console.log("==================================================");
   for (const check of report.checks) {
     console.log(`\n[${check.status}] ${check.id}\n${check.description}`);
@@ -1047,7 +1047,7 @@ function printReport(report) {
 
 async function main() {
   const started = Date.now();
-  console.log("Starting isolated OrbitGuard verification backend...");
+  console.log("Starting isolated SAT Guard verification backend...");
   let backendReady = false;
 
   try {

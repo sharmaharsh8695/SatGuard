@@ -97,7 +97,7 @@ function resetDemoState() {
 
   return {
     reset: true,
-    scope: "Local OrbitGuard demo/test state only",
+    scope: "Local SAT Guard demo/test state only",
     spacecraft: spacecraftService.getState(),
     queue: { pending: [], held: [] },
     events: [],

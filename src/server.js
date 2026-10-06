@@ -3,7 +3,7 @@ const { PORT } = require("./config/constants");
 
 function startServer(port = PORT) {
   return app.listen(port, () => {
-    console.log(`OrbitGuard is running on port ${port}`);
+    console.log(`SAT Guard is running on port ${port}`);
   });
 }
 

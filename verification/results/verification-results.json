@@ -1,0 +1,877 @@
+{
+  "timestamp": "2026-10-06T08:56:40.645Z",
+  "durationMs": 965,
+  "overallStatus": "FAIL",
+  "summary": {
+    "pass": 70,
+    "fail": 1,
+    "warn": 0,
+    "skip": 1,
+    "criticalFailures": 1
+  },
+  "endpointManifest": [
+    {
+      "method": "GET",
+      "path": "/health",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/spacecraft/state",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/spacecraft/commands",
+      "authenticationExpected": false,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/commands/queue",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/commands/held",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/commands/queue",
+      "authenticationExpected": false,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/commands/queue/:id",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/commands/queue/:id",
+      "authenticationExpected": false,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/commands/queue/:id/execute",
+      "authenticationExpected": false,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/commands/queue/simulation",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/commands/queue/simulation",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/commands/queue/plan",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/commands/queue/plan",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/gateway/commands",
+      "authenticationExpected": true,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/gateway/commands/evaluate",
+      "authenticationExpected": true,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/security/events",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/security/quarantine",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "GET",
+      "path": "/scenarios",
+      "authenticationExpected": false,
+      "stateMutationExpected": false,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/scenarios/reset",
+      "authenticationExpected": false,
+      "stateMutationExpected": true,
+      "exercised": true
+    },
+    {
+      "method": "POST",
+      "path": "/scenarios/:scenarioId/run",
+      "authenticationExpected": false,
+      "stateMutationExpected": true,
+      "exercised": true
+    }
+  ],
+  "checks": [
+    {
+      "id": "RUNNER-001",
+      "subsystem": "runner",
+      "description": "Isolated Express backend starts on a dedicated port and answers health",
+      "expected": "Child backend starts and GET /health returns HTTP 200",
+      "actual": "Child backend ready at http://127.0.0.1:57206",
+      "status": "PASS",
+      "durationMs": 314,
+      "critical": true
+    },
+    {
+      "id": "HEALTH-001",
+      "subsystem": "health",
+      "description": "Health returns the SAT Guard service identity",
+      "expected": "HTTP 200 JSON; status ok; service SAT Guard",
+      "actual": "HTTP 200; status=ok; service=SAT Guard",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "HEALTH-002",
+      "subsystem": "health",
+      "description": "Malformed request body returns safe JSON instead of crashing",
+      "expected": "HTTP 400 JSON error without stack",
+      "actual": "HTTP 400; JSON error returned; stack absent",
+      "status": "PASS",
+      "durationMs": 394,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-001",
+      "subsystem": "spacecraft",
+      "description": "Initial state contains sensible modeled fields",
+      "expected": "HTTP 200 with nominal state and required state fields",
+      "actual": "HTTP 200; mode=NOMINAL; battery/fuel within modeled 0-100 ranges",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-002",
+      "subsystem": "spacecraft",
+      "description": "PING succeeds without changing state",
+      "expected": "HTTP 200; success true; state unchanged",
+      "actual": "HTTP 200; success; state unchanged",
+      "status": "PASS",
+      "durationMs": 6,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-003",
+      "subsystem": "spacecraft",
+      "description": "CAMERA_ON follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 6,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-004",
+      "subsystem": "spacecraft",
+      "description": "CAPTURE_IMAGE follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-005",
+      "subsystem": "spacecraft",
+      "description": "CAMERA_OFF follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-006",
+      "subsystem": "spacecraft",
+      "description": "HIGH_POWER_TRANSMISSION follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-007",
+      "subsystem": "spacecraft",
+      "description": "HEATER_ON follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-008",
+      "subsystem": "spacecraft",
+      "description": "HEATER_OFF follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-009",
+      "subsystem": "spacecraft",
+      "description": "CHANGE_ORIENTATION follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 5,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-010",
+      "subsystem": "spacecraft",
+      "description": "ENTER_SAFE_MODE follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-011",
+      "subsystem": "spacecraft",
+      "description": "RECOVER follows the existing simulator transition",
+      "expected": "HTTP 200; command succeeds and expected field changes",
+      "actual": "HTTP 200; success; modeled transition observed",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SPACECRAFT-012",
+      "subsystem": "spacecraft",
+      "description": "Precondition failure does not partially mutate state",
+      "expected": "Capture with camera off is rejected; before/after state equal",
+      "actual": "HTTP 409; rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "VALIDATION-001",
+      "subsystem": "validation",
+      "description": "Missing command type",
+      "expected": "HTTP 4xx; JSON rejection; state unchanged",
+      "actual": "HTTP 400; rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "VALIDATION-002",
+      "subsystem": "validation",
+      "description": "Unknown command type",
+      "expected": "HTTP 4xx; JSON rejection; state unchanged",
+      "actual": "HTTP 400; rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 5,
+      "critical": true
+    },
+    {
+      "id": "VALIDATION-003",
+      "subsystem": "validation",
+      "description": "Malformed parameters",
+      "expected": "HTTP 4xx; JSON rejection; state unchanged",
+      "actual": "HTTP 400; rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "VALIDATION-004",
+      "subsystem": "validation",
+      "description": "Invalid parameter value",
+      "expected": "HTTP 4xx; JSON rejection; state unchanged",
+      "actual": "HTTP 400; rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "VALIDATION-005",
+      "subsystem": "validation",
+      "description": "Invalid command structure",
+      "expected": "HTTP 4xx; JSON rejection; state unchanged",
+      "actual": "HTTP 400; rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-001",
+      "subsystem": "queue",
+      "description": "Queue starts clean after demo reset",
+      "expected": "GET queue returns empty array",
+      "actual": "HTTP 200; pending queue empty",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-002",
+      "subsystem": "queue",
+      "description": "Valid commands enqueue once in insertion order",
+      "expected": "Two commands with distinct IDs and increasing sequence",
+      "actual": "Two distinct commands appear once in insertion order",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-003",
+      "subsystem": "queue",
+      "description": "Fetch queued command by returned ID",
+      "expected": "HTTP 200 and matching command ID",
+      "actual": "HTTP 200; command ID matched",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-004",
+      "subsystem": "queue",
+      "description": "Cancellation changes status and removes from pending list",
+      "expected": "DELETE succeeds; status CANCELLED; pending item removed",
+      "actual": "HTTP 200; CANCELLED; removed from pending queue",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-005",
+      "subsystem": "queue",
+      "description": "Cancelled command cannot execute",
+      "expected": "HTTP 4xx; queue and spacecraft remain unchanged",
+      "actual": "HTTP 409; no state or pending queue mutation",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-006",
+      "subsystem": "queue",
+      "description": "Selected queued command executes and other items wait",
+      "expected": "Camera changes; selected record is EXECUTED; no unrelated item runs",
+      "actual": "HTTP 200; camera ON; selected command EXECUTED; no pending command ran",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-007",
+      "subsystem": "queue",
+      "description": "Unknown queue IDs are rejected without queue corruption",
+      "expected": "GET/DELETE/execute return 404 and queue stays empty",
+      "actual": "Three unknown-ID operations returned HTTP 404; queue unchanged",
+      "status": "PASS",
+      "durationMs": 7,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-008",
+      "subsystem": "queue",
+      "description": "Failed queued execution is recorded and leaves state unchanged",
+      "expected": "CAPTURE_IMAGE becomes FAILED; spacecraft snapshot unchanged",
+      "actual": "HTTP 409; FAILED; spacecraft unchanged",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "QUEUE-009",
+      "subsystem": "queue",
+      "description": "Malformed/unknown command is not admitted",
+      "expected": "HTTP 4xx; queue stays empty",
+      "actual": "HTTP 400; pending queue empty",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SIM-001",
+      "subsystem": "simulation",
+      "description": "Empty queued simulation returns a safe modeled result",
+      "expected": "GET simulation is safe and does not mutate state/queue",
+      "actual": "HTTP 200; safe=true; state and queue unchanged",
+      "status": "PASS",
+      "durationMs": 7,
+      "critical": true
+    },
+    {
+      "id": "PLAN-001",
+      "subsystem": "planner",
+      "description": "Empty queue is safe as-is",
+      "expected": "GET plan returns SAFE_AS_IS",
+      "actual": "HTTP 200; SAFE_AS_IS",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SIM-002",
+      "subsystem": "simulation",
+      "description": "Unsafe precondition is explicit and simulation does not execute",
+      "expected": "GET reports failure; spacecraft/queue unchanged",
+      "actual": "HTTP 200; unsafe precondition reported; no mutation",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "SIM-003",
+      "subsystem": "simulation",
+      "description": "Proposed-command simulation remains temporary",
+      "expected": "POST simulates appended command without enqueue or execution",
+      "actual": "HTTP 200; proposal not queued; real state and queue unchanged",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "SIM-004",
+      "subsystem": "simulation",
+      "description": "Valid proposed command can be simulated",
+      "expected": "POST returns ordered step without queue mutation",
+      "actual": "HTTP 200; predicted camera ON; actual state/queue unchanged",
+      "status": "PASS",
+      "durationMs": 9,
+      "critical": true
+    },
+    {
+      "id": "SIM-005",
+      "subsystem": "simulation",
+      "description": "Transmission uses communication-available modeled path",
+      "expected": "HIGH_POWER_TRANSMISSION simulates successfully from deployed-antenna baseline",
+      "actual": "HTTP 200; radio/antenna precondition passed; modeled battery effect returned",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SIM-006",
+      "subsystem": "simulation",
+      "description": "Unavailable-radio constraint rejection",
+      "expected": "Public HTTP API can configure the required condition",
+      "actual": "The public HTTP API exposes no way to set radio OFF or antenna STOWED; verifier does not mutate private service state",
+      "status": "SKIP",
+      "durationMs": 0,
+      "critical": false
+    },
+    {
+      "id": "PLAN-002",
+      "subsystem": "planner",
+      "description": "Dependency-aware safe reorder is found",
+      "expected": "POST plan finds CAMERA_ON before queued CAPTURE_IMAGE without mutating queue/state",
+      "actual": "HTTP 200; SAFE_REORDER_FOUND; state/queue unchanged",
+      "status": "PASS",
+      "durationMs": 7,
+      "critical": true
+    },
+    {
+      "id": "PLAN-003",
+      "subsystem": "planner",
+      "description": "Dependency-valid sequence with failed precondition yields NO_SAFE_PLAN",
+      "expected": "GET plan reports NO_SAFE_PLAN",
+      "actual": "HTTP 200; NO_SAFE_PLAN",
+      "status": "PASS",
+      "durationMs": 8,
+      "critical": true
+    },
+    {
+      "id": "PLAN-004",
+      "subsystem": "planner",
+      "description": "Queue over configured planning cap is reported explicitly",
+      "expected": "GET plan reports PLANNING_LIMIT_EXCEEDED",
+      "actual": "HTTP 200; PLANNING_LIMIT_EXCEEDED",
+      "status": "PASS",
+      "durationMs": 7,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-001",
+      "subsystem": "gateway",
+      "description": "Valid operator/HMAC request is admitted once and not executed",
+      "expected": "HTTP 202; checks pass; one queued item; spacecraft unchanged",
+      "actual": "HTTP 202; all gateway checks passed; queued once; not executed",
+      "status": "PASS",
+      "durationMs": 7,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-002",
+      "subsystem": "gateway",
+      "description": "Invalid credential is rejected without queue/state mutation",
+      "expected": "HTTP 401 and no admission or execution",
+      "actual": "HTTP 401; rejected; queue empty; state unchanged",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-003",
+      "subsystem": "gateway",
+      "description": "Unknown operator is rejected",
+      "expected": "HTTP 401 with no queue admission",
+      "actual": "HTTP 401; queue empty",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-004",
+      "subsystem": "gateway",
+      "description": "Unauthorized command is rejected",
+      "expected": "OPERATOR cannot submit HIGH_POWER_TRANSMISSION",
+      "actual": "HTTP 403; authorization failed; queue empty",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-005",
+      "subsystem": "gateway",
+      "description": "Invalid HMAC is rejected",
+      "expected": "HTTP 401; no queue admission",
+      "actual": "HTTP 401; integrity failed; queue empty",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-006",
+      "subsystem": "gateway",
+      "description": "Post-signing command modification is detected",
+      "expected": "HTTP 401 and integrity result fails",
+      "actual": "HTTP 401; modified payload rejected; queue empty",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-007",
+      "subsystem": "gateway",
+      "description": "Expired timestamp is rejected",
+      "expected": "HTTP 409; timestampValid false",
+      "actual": "HTTP 409; timestamp rejected; queue empty",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-008",
+      "subsystem": "gateway",
+      "description": "Exact command replay is rejected and not enqueued twice",
+      "expected": "First accepted; second HTTP 409; queue contains one copy",
+      "actual": "First HTTP 202; replay HTTP 409; exactly one queued copy",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-009",
+      "subsystem": "gateway",
+      "description": "Nonce reuse by the same operator is rejected",
+      "expected": "Second distinct command ID with reused nonce is HTTP 409",
+      "actual": "Nonce replay rejected; only first command queued",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-010",
+      "subsystem": "gateway",
+      "description": "Malformed envelope is rejected",
+      "expected": "HTTP 4xx with structured JSON",
+      "actual": "HTTP 400; structured rejection; queue empty",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-011",
+      "subsystem": "gateway",
+      "description": "Accepted gateway command remains queued, not executed",
+      "expected": "Camera stays OFF; command remains QUEUED",
+      "actual": "Command queued; spacecraft camera remains OFF",
+      "status": "PASS",
+      "durationMs": 6,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-012",
+      "subsystem": "decision",
+      "description": "Decision endpoint returns structured ALLOW and records an event",
+      "expected": "HTTP 200; security checks pass; command queued but not executed",
+      "actual": "HTTP 200; ALLOW; event returned; queued once; not executed",
+      "status": "PASS",
+      "durationMs": 7,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-001",
+      "subsystem": "scenarios",
+      "description": "Scenario catalog exposes all current deterministic scenarios",
+      "expected": "HTTP 200 array with eight metadata records",
+      "actual": "HTTP 200; 8 scenario records with metadata",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-NORMAL_SAFE_COMMAND",
+      "subsystem": "scenarios",
+      "description": "NORMAL_SAFE_COMMAND produces its actual intended behavior",
+      "expected": "Security passes and the command is allowed without execution.",
+      "actual": "decision=ALLOW; level=L0",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-TAMPERED_COMMAND",
+      "subsystem": "scenarios",
+      "description": "TAMPERED_COMMAND produces its actual intended behavior",
+      "expected": "Integrity fails and the request is quarantined.",
+      "actual": "decision=QUARANTINE; level=L3",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-REPLAYED_COMMAND",
+      "subsystem": "scenarios",
+      "description": "REPLAYED_COMMAND produces its actual intended behavior",
+      "expected": "The first request is accepted and the replay is quarantined.",
+      "actual": "first=ALLOW; replay=QUARANTINE",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-LEGITIMATE_BUT_UNSAFE",
+      "subsystem": "scenarios",
+      "description": "LEGITIMATE_BUT_UNSAFE produces its actual intended behavior",
+      "expected": "Security passes, a safe reorder is found, and the command is held.",
+      "actual": "decision=HOLD; level=L2",
+      "status": "PASS",
+      "durationMs": 5,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-NO_SAFE_PLAN",
+      "subsystem": "scenarios",
+      "description": "NO_SAFE_PLAN produces its actual intended behavior",
+      "expected": "No safe plan is found and the command is quarantined.",
+      "actual": "decision=QUARANTINE; level=L3",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-COMMAND_BURST",
+      "subsystem": "scenarios",
+      "description": "COMMAND_BURST produces its actual intended behavior",
+      "expected": "The threshold-crossing command receives WATCH and a burst signal.",
+      "actual": "submissions=6; final=WATCH",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-ESCALATION_TO_RESTRICTED",
+      "subsystem": "scenarios",
+      "description": "ESCALATION_TO_RESTRICTED produces its actual intended behavior",
+      "expected": "PING is restricted while an explicitly permitted CAMERA_OFF remains available.",
+      "actual": "ping=RESTRICTED; allowed action=ALLOW",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-CRITICAL_ESCALATION_TO_SAFE_MODE",
+      "subsystem": "scenarios",
+      "description": "CRITICAL_ESCALATION_TO_SAFE_MODE produces its actual intended behavior",
+      "expected": "The existing policy selects SAFE_MODE and invokes its simulated transition.",
+      "actual": "first=ALLOW; replay=SAFE_MODE",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "SCENARIO-010",
+      "subsystem": "scenarios",
+      "description": "Unknown scenario ID returns a structured 404",
+      "expected": "HTTP 404 JSON error",
+      "actual": "HTTP 404; structured error",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "DECISION-001",
+      "subsystem": "decision",
+      "description": "HOLD retains a command without executing it",
+      "expected": "Held record appears; execute rejected; state unchanged",
+      "actual": "HOLD recorded; no approval path; held execute rejected; state unchanged",
+      "status": "PASS",
+      "durationMs": 11,
+      "critical": true
+    },
+    {
+      "id": "DECISION-002",
+      "subsystem": "decision",
+      "description": "Quarantined command does not enter executable queue",
+      "expected": "NO_SAFE_PLAN quarantines proposed command; state unchanged",
+      "actual": "QUARANTINE record exists; proposed command not pending; state unchanged",
+      "status": "PASS",
+      "durationMs": 8,
+      "critical": true
+    },
+    {
+      "id": "EVENT-001",
+      "subsystem": "security",
+      "description": "Events are newest-first, structured, and secret-free",
+      "expected": "GET events returns event records without credentials or keys",
+      "actual": "HTTP 200; 1 newest-first events; secret scan clear",
+      "status": "PASS",
+      "durationMs": 2,
+      "critical": true
+    },
+    {
+      "id": "QUARANTINE-001",
+      "subsystem": "security",
+      "description": "Quarantine API returns structured, secret-free records",
+      "expected": "HTTP 200 array; no credential/signature/key leakage",
+      "actual": "HTTP 200; 1 records; secret scan clear",
+      "status": "PASS",
+      "durationMs": 1,
+      "critical": true
+    },
+    {
+      "id": "SECURITY-REDACTION-001",
+      "subsystem": "security",
+      "description": "No observed API response exposes configured prototype secrets",
+      "expected": "Response scan finds no known secret values or credential/signature fields",
+      "actual": "No configured secret values or credential/signature fields found in observed responses",
+      "status": "PASS",
+      "durationMs": 0,
+      "critical": true
+    },
+    {
+      "id": "RESET-001",
+      "subsystem": "scenarios",
+      "description": "Scenario reset restores state and clears queue/security stores",
+      "expected": "Nominal state; pending/held/events/quarantine empty",
+      "actual": "HTTP 200; baseline state and all demo stores cleared",
+      "status": "PASS",
+      "durationMs": 3,
+      "critical": true
+    },
+    {
+      "id": "RESET-002",
+      "subsystem": "scenarios",
+      "description": "Hero scenario repeats with the same logical result after reset",
+      "expected": "HOLD and safe planner order match across two reset-separated runs",
+      "actual": "Both runs HOLD; planner order CAMERA_ON -> CAPTURE_IMAGE",
+      "status": "PASS",
+      "durationMs": 5,
+      "critical": true
+    },
+    {
+      "id": "RESET-003",
+      "subsystem": "workflow",
+      "description": "Reset followed by normal scenario returns ALLOW",
+      "expected": "Clean baseline then real NORMAL_SAFE_COMMAND result is ALLOW",
+      "actual": "Reset baseline followed by actual ALLOW scenario",
+      "status": "PASS",
+      "durationMs": 4,
+      "critical": true
+    },
+    {
+      "id": "ROUTES-001",
+      "subsystem": "routes",
+      "description": "All registered Express endpoints have HTTP coverage",
+      "expected": "20 manifest entries covered",
+      "actual": "20/20 route methods exercised",
+      "status": "PASS",
+      "durationMs": 0,
+      "critical": true
+    },
+    {
+      "id": "RUNNER-002",
+      "subsystem": "runner",
+      "description": "Isolated backend remains alive through the full HTTP suite",
+      "expected": "Backend process stays running until verifier cleanup",
+      "actual": "Backend remained available through all HTTP checks",
+      "status": "PASS",
+      "durationMs": 0,
+      "critical": true
+    },
+    {
+      "id": "FRONTEND-BUILD-001",
+      "subsystem": "frontend",
+      "description": "React/Vite production build succeeds",
+      "expected": "npm run build exits 0",
+      "actual": "Build failed: ",
+      "status": "FAIL",
+      "durationMs": 1,
+      "critical": true
+    }
+  ],
+  "diagnostics": []
+}
