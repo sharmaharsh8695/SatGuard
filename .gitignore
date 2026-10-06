@@ -1,0 +1,5 @@
+node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+verification/results/verification-results.json

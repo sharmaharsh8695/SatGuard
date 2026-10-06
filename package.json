@@ -1,0 +1,17 @@
+{
+  "name": "sat-guard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A simulated cybersecurity gateway for satellite ground-station commands",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "verify": "node scripts/verify-system.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
